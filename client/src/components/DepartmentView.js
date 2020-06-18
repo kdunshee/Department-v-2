@@ -1,17 +1,17 @@
 import React , {useState, useEffect} from 'react'
 import Axios from 'axios';
-import { Segment, Header, Button} from 'semantic-ui-react';
+import { Segment, Header, Button, Form} from 'semantic-ui-react';
 
 export default function DepartmentView(props) {
-    const [Department, setDepartment] = useState({});
+    const [department, setDepartment] = useState({});
+    const [item, setItem] = useState([])
 
-
-    
     useEffect( () => {
         Axios.get (`/api/departments/${props.match.params.id}`).
         then(res =>{
             console.log(res)
             setDepartment(res.data);
+            setItem(res.data.items)
 
         }).catch((e) => {
             console.log(e)
@@ -19,15 +19,35 @@ export default function DepartmentView(props) {
 
     },[])
 
+    async function handleSubmit() {
+        console.log("submit");
+        const res = await Axios.post(`/api/departments/${department.id}/item`, {
+          description: item,
+         
+        });
+        console.log(res);
+        setItem([res.data, ...item]);
+        setItem("");
+      }
+
     return (
         <div>
             <Segment>
-                <Header as='h1'>{Department.name}</Header>
-                <Header as ='h3'>{Department.description}</Header>
-            
+                <Header as='h1'>{department.name}</Header>
+                <Header as ='h3'>{department.description}</Header>
+                
                 <br />
                 <br />
-                <Button color ="purple"
+
+                <Form onSubmit={handleSubmit}>
+          <Form.Input
+            placeholder={"enter item"}
+            value={item}
+            onChange={(e) => setItem(e.target.value)}
+          />
+          <Form.Button>add</Form.Button>
+        </Form>
+                <Button color ="blue"
                 onClick = {props.history.goBack}> Back</Button>
             </Segment>
         </div>

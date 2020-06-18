@@ -29,6 +29,7 @@ class Api::DepartmentsController < ApplicationController
 
   def destroy
     @department.destroy
+    render json: @department
   end
 
   private

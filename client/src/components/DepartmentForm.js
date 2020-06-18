@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Header, } from "semantic-ui-react";
+import styled from 'styled-components';
 import Axios from 'axios';
+
 class ProductsForm extends React.Component {
   defaultValues = { name: "", description: "", };
   state = { ...this.defaultValues, };
@@ -21,7 +23,9 @@ class ProductsForm extends React.Component {
     const { name, description, } = this.state;
     return (
       <div>
-        <Header as="h1">New Product</Header>
+        <AppContainer>
+
+        <Header as="h1">Enter New Department</Header>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group widths="equal">
             <Form.Input
@@ -31,19 +35,25 @@ class ProductsForm extends React.Component {
               value={name}
               onChange={this.handleChange}
               required
-            />
+              />
             <Form.Input
               label="Description"
               name="description"
               placeholder="Description"
               value={description}
               onChange={this.handleChange}
-            />
+              />
           </Form.Group>
-          <Form.Button color="orange">Submit</Form.Button>
+          <Form.Button color="blue">Submit</Form.Button>
         </Form>
+              </AppContainer>
       </div>
     )
   }
 }
+
+const AppContainer = styled.div`
+  background: linear-gradient(to bottom right, green, white);
+`;
+
 export default ProductsForm;
